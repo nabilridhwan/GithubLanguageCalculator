@@ -5,26 +5,33 @@ let all_lang = []
 let lang_obj = []
 let lang_set = []
 
-console.log(`https://api.github.com/users/${user}/repos?per_page=100`)
+console.log(`Fetching: https://api.github.com/users/${user}/repos?per_page=100`)
 fetch(`https://api.github.com/users/${user}/repos?per_page=100`)
-    .then(response => {
-        return response.json()
-    })
+    .then(response => response.json())
     .then(json => {
 
+        // Try if it works, if not there is something wrong with the response
         try {
             json.forEach(item => {
                 if (item.language) {
+
+                    // This is where we store all the languages with duplicates as we need to count!
+                    // ['JavaScript', 'Java', 'Java', 'Python', 'JavaScript']
                     all_lang.push(item.language)
                 }
             });
+
+            // This is where we store the languages found but none of it is a duplicate.
+            // ['JavaScript', 'Java', 'Java', 'Python', 'JavaScript'] => ['JavaScript', 'Java', 'Python']
+            lang_set = Array.from(new Set(all_lang))
+
+            // Run the calculate languages function passing the languages set
+            console.log(calculate_all_lang(lang_set))
         } catch (error) {
+
+            // Error handling!
             console.log(`An error has occured, it may seem that you have went over GitHub's Rate Limit or you typed in a wrong username!`)
         }
-
-        lang_set = Array.from(new Set(all_lang))
-        console.log(calculate_all_lang(lang_set))
-
     })
 
 function calculate_all_lang(u) {
