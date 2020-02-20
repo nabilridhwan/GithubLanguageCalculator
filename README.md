@@ -2,12 +2,14 @@
 Calculates the languages inside a GitHub profile.
 
 # Usage
-``` bash
-git clone [REPO_LINK]
-cd GithubLanguageCalculator
-npm install
-node index.js [GITHUB_USER_NAME]
-# For example: node index.js nabilridhwan
+The 'calculating' function returns a promise, you can import this as a module for another file. The example below is from another file.
+```JS
+let Calculator = require("./LanguageCalculator.js")
+
+Calculator("nabilridhwan")
+.then(results => {
+    console.log(results)
+})
 ```
 
 ## Possible Output:
@@ -17,6 +19,6 @@ Example:
     "JavaScript": 3,
     "Python": 1,
     "Java": 1,
-    "Total": 5
+    "None": 3
 }
 ```
